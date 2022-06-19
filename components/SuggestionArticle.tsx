@@ -3,17 +3,19 @@ import Image from 'next/image'
 
 interface SuggestionArticleProps {
 	suggestion: Suggestion;
+	index: number;
 	onEngage: (suggestion: Suggestion) => void;
 }
 
-// const categoryColors: { [key in keyof typeof Category]: string } = {
-// 	Learn: 'red',
-// 	Meditate: 'blue'
-// }
+const categoryColors: Record<Category, string> = {
+	[Category.Learn]: 'green',
+	[Category.Meditate]: 'blue',
+	[Category.Excercise]: 'red'
+}
 
 export default function SuggestionArticle({ suggestion, onEngage }: SuggestionArticleProps) {
 	const { title, description, image, category } = suggestion;
-	// const color = categoryColors[category] || 'gray'
+	const color = categoryColors[category] || 'gray'
 
 	return (
 		<article className='bg-red-100 snap-start relative h-screen overflow-hidden'>

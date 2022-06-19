@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import SuggestionArticle from '../components/SuggestionArticle'
 import { Suggestion } from '../models/Suggestion.type';
 import { randomSuggestions } from '../services/SuggestionService';
@@ -13,7 +13,10 @@ const handleEngage = ({ externalLink }: Suggestion) => {
 
 const Home: NextPage = () => {
   const suggestions = useMemo(() => randomSuggestions(), [])
-  console.log(suggestions)
+  const [isSSR, setIsSSr] = useState(false);
+
+  useEffect(() => setIsSSr(true), []);
+  if (!isSSR) return null;
 
   return (
     <>
@@ -27,7 +30,7 @@ const Home: NextPage = () => {
       </header>
 
       <main className='snap-y'>
-        {suggestions.map(suggestion => <SuggestionArticle key={suggestion.id} onEngage={handleEngage} suggestion={suggestion}></SuggestionArticle>)}
+        {suggestions.map((suggestion, index) => <SuggestionArticle index={index} key={suggestion.id} onEngage={handleEngage} suggestion={suggestion}></SuggestionArticle>)}
       </main>
 
       <footer>

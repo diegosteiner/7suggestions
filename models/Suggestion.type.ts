@@ -9,7 +9,7 @@ export enum Category {
 }
 
 export type Suggestion = {
-	id: string | number;
+	id: string;
 	category: Category;
 	style?: any;
 	title: string;
