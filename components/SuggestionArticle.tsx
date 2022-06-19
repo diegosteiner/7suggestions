@@ -1,5 +1,5 @@
-import { Category, Suggestion } from "../models/Suggestion.type"
-import Image from 'next/image'
+import { Suggestion } from "../models/Suggestion.type"
+import Image, { StaticImageData } from 'next/image'
 
 interface SuggestionArticleProps {
 	suggestion: Suggestion;
@@ -7,25 +7,30 @@ interface SuggestionArticleProps {
 	onEngage: (suggestion: Suggestion) => void;
 }
 
-const categoryColors: Record<Category, string> = {
-	[Category.Learn]: 'green',
-	[Category.Meditate]: 'blue',
-	[Category.Excercise]: 'red'
+function Background({ background }: { background: Suggestion['background'] }) {
+	if (!background) return null;
+
+	if (typeof background === 'string') {
+		return <div style={{ background: background }}></div>
+	}
+
+	return <Image alt='Background' src={background as StaticImageData} ></Image>
 }
 
-export default function SuggestionArticle({ suggestion, onEngage }: SuggestionArticleProps) {
-	const { title, description, image, category } = suggestion;
-	const color = categoryColors[category] || 'gray'
+export default function SuggestionArticle({ suggestion, onEngage, index }: SuggestionArticleProps) {
+	const { title, description, background, buttonStyle, children } = suggestion;
 
 	return (
-		<article className='bg-red-100 snap-start relative h-screen overflow-hidden'>
-			<div className="flex flex-col max-w-md mx-auto p-3 h-full justify-center z-20 relative">
-				<h1 className="font-bold leading-tight text-3xl mt-0 mb-2">{title}</h1>
+		<article className='suggestion-article snap-start relative h-screen overflow-hidden bg-black text-white'>
+			<div className="flex flex-col max-w-md mx-auto p-3 h-full justify-center z-20 relative text-center">
+				<small>Suggestion {index + 1} / 7</small>
+				<h1 className="font-bold leading-tight text-4xl mt-5 mb-5">{title}</h1>
 				<p>{description}</p>
-				<button className="bg-red-500 hover:bg-red-700 text-xl mt-10 text-white font-bold py-2 px-4 rounded" onClick={() => onEngage(suggestion)}>Engage!</button>
+				{children}
+				<button className="bg-red-600 hover:bg-red-500 shadow text-xl mt-10 text-white font-bold py-2 px-4 rounded" style={buttonStyle} onClick={() => onEngage(suggestion)}>Engage!</button>
 			</div>
-			<div className="absolute top-0 h-full w-full object-cover z-10 opacity-50">
-				{image && <Image alt={title} src={image} ></Image>}
+			<div className="absolute top-0 h-full w-full object-cover z-10 opacity-40">
+				<Background background={background}></Background>
 			</div>
 		</article>)
 

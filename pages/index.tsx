@@ -21,7 +21,7 @@ const Home: NextPage = () => {
   return (
     <>
       <Head>
-        <title>Unbored</title>
+        <title>7suggestions</title>
         <meta name="description" content="7 suggestions agains boredom" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

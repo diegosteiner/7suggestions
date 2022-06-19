@@ -1,4 +1,5 @@
 import { StaticImageData } from "next/image";
+import { CSSProperties, ReactElement } from "react";
 
 
 export enum Category {
@@ -11,11 +12,11 @@ export enum Category {
 export type Suggestion = {
 	id: string;
 	category: Category;
-	style?: any;
+	buttonStyle?: CSSProperties;
 	title: string;
 	description?: string;
 	timeframe?: number;
 	externalLink?: string;
-	image?: StaticImageData;
-	// category: Category;
+	background?: StaticImageData | string;
+	children?: ReactElement
 }
